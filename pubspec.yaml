@@ -1,0 +1,109 @@
+name: sena_inventory_management
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.1
+  shared_preferences: ^2.2.3
+  async_widget_builder:
+    git: 
+      url: https://github.com/AxonDesigns/async_widget_builder.git
+  field_validators:
+    git: 
+      url: https://github.com/AxonDesigns/field_validators.git
+  fluentui_system_icons: ^1.1.248
+  pocketbase: ^0.18.1
+  dio: ^5.5.0+1
+  connectivity_plus: ^6.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+  fonts:
+    - family: GeneralSans
+      fonts:
+        - asset: assets/fonts/general_sans/GeneralSans-Variable.ttf
+        - asset: assets/fonts/general_sans/GeneralSans-VariableItalic.ttf
+          style: italic
+        - asset: assets/fonts/general_sans/GeneralSans-Extralight.ttf # Extra-Light
+          weight: 200
+        - asset: assets/fonts/general_sans/GeneralSans-Light.ttf # Light
+          weight: 300
+        - asset: assets/fonts/general_sans/GeneralSans-Regular.ttf # Normal
+          weight: 400
+        - asset: assets/fonts/general_sans/GeneralSans-Medium.ttf # Medium
+          weight: 500
+        - asset: assets/fonts/general_sans/GeneralSans-Semibold.ttf  # Semi-Bold
+          weight: 600
+        - asset: assets/fonts/general_sans/GeneralSans-Bold.ttf  # Bold
+          weight: 700
+
+    - family: Satoshi
+      fonts:
+        - asset: assets/fonts/satoshi/Satoshi-Variable.ttf
+        - asset: assets/fonts/satoshi/Satoshi-VariableItalic.ttf
+          style: italic
+        - asset: assets/fonts/satoshi/Satoshi-Light.ttf
+          weight: 300
+        - asset: assets/fonts/satoshi/Satoshi-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/satoshi/Satoshi-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/satoshi/Satoshi-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/satoshi/Satoshi-Black.ttf
+          weight: 900
+
+    - family: Segoe UI
+      fonts:
+        #- asset: assets/fonts/thin.ttf # Thin
+        #  weight: 100
+        - asset: assets/fonts/segoeuil.ttf # Extra-Light
+          weight: 200
+        - asset: assets/fonts/segoeuisl.ttf # Light
+          weight: 300
+        - asset: assets/fonts/segoeui.ttf # Normal
+          weight: 400
+        #- asset: assets/fonts/medium.ttf # Medium
+        #  weight: 500
+        - asset: assets/fonts/seguisb.ttf  # Semi-Bold
+          weight: 600
+        - asset: assets/fonts/segoeuib.ttf  # Bold
+          weight: 700
+        #- asset: assets/fonts/extra_bold.ttf  # Extra-Bold
+        #  weight: 800
+        - asset: assets/fonts/seguibl.ttf  # Black
+          weight: 900
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/sena_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/sena_icon.png"
+    background_color: "#2ED340"
+    theme_color: "#2ED340"
+  windows:
+    generate: true
+    image_path: "assets/images/sena_icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/sena_icon.png"

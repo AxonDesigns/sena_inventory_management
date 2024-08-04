@@ -42,6 +42,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+/db/pb_migrations
 /db/pb_data/backups
 /db/pb_data/types.d.ts
 /db/pb_data/logs.db

@@ -8,12 +8,11 @@ class TransactionRepository {
 
   final PocketBase pocketBase;
 
-  static const _expand =
-      'responsible,source,destination,source.city,source.city.department,source.type,destination.city,destination.city.department,destination.type';
+  static const _expand = 'responsible,responsible.role,source,destination,source.city,source.city.department,source.type,destination.city,destination.city.department,destination.type';
 
   Future<List<Transaction>> getAll() async {
     final records = await pocketBase.collection('transactions').getFullList(expand: _expand);
-    final transactions = Future.wait(records.map((record) async {
+    final transactions = await Future.wait(records.map((record) async {
       final productTransactions = await getProductsForTransaction(record.id);
       return Transaction.fromJson(record.toJson(), productTransactions);
     }).toList());

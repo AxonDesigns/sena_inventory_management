@@ -1,9 +1,11 @@
+import 'package:sena_inventory_management/domain/models/models.dart';
+
 class User {
   final String id;
   final String username;
   final String email;
   final String fullName;
-  final String role;
+  final Role role;
   final String phoneNumber;
   final String citizenId;
   final String avatarFileName;
@@ -25,7 +27,7 @@ class User {
       username: json['username'].toString(),
       email: json['email'].toString(),
       fullName: json['fullname'].toString(),
-      role: json['role'].toString(),
+      role: Role.fromJson(json['expand']['role']),
       phoneNumber: json['phone_number'].toString(),
       citizenId: json['citizen_id'].toString(),
       avatarFileName: json['avatar_file_name'].toString(),

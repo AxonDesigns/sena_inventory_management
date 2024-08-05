@@ -42,7 +42,7 @@ class AuthRepository extends Repository<User> {
     }
 
     try {
-      _userModel ??= await pocketbase.collection("users").getOne(pocketbase.authStore.model.id);
+      _userModel ??= await pocketbase.collection("users").getOne(pocketbase.authStore.model.id, expand: 'role');
     } catch (e) {
       _userModel = null;
     }
@@ -65,7 +65,7 @@ class AuthRepository extends Repository<User> {
 
   Future<Result<User, ClientException>> signIn({required String email, required String password}) async {
     try {
-      final recordAuth = await pocketbase.collection("users").authWithPassword(email, password);
+      final recordAuth = await pocketbase.collection("users").authWithPassword(email, password, expand: 'role');
       final record = recordAuth.record;
       if (record == null) return Result(error: ClientException());
       return Result(data: User.fromJson(record.toJson()));

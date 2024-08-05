@@ -40,7 +40,11 @@ class _OrdersPageState extends ConsumerState<TransactionsPage> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => const Center(child: Text("Error")),
+      error: (error, stack) {
+        print(error);
+        print(stack);
+        return const Center(child: Text("Error"));
+      },
     );
   }
 }

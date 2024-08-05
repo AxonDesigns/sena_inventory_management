@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/core/core.dart';
+import 'package:sena_inventory_management/domain/models/models.dart';
 import 'package:sena_inventory_management/presentation/presentation.dart';
 
 class HomeShell extends ConsumerStatefulWidget {
@@ -17,6 +18,7 @@ class _HomePageState extends ConsumerState<HomeShell> {
   int _selected = 0;
   final _navRailSize = 45.0;
   final _navRailGap = 5.0;
+  User? _user;
   final _routes = [dashboardRoute, stockRoute, transactionsRoute, employeesRoute];
 
   @override
@@ -24,6 +26,11 @@ class _HomePageState extends ConsumerState<HomeShell> {
     super.initState();
     final router = ref.read(appRouterProvider);
     final currentPath = router.currentPath;
+    ref.read(authProvider).user.then((value) {
+      setState(() {
+        _user = value;
+      });
+    });
     setState(() {
       _selected = _routes.indexOf(currentPath);
     });
@@ -141,15 +148,23 @@ class _HomePageState extends ConsumerState<HomeShell> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("John Doe", style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400)),
-                          Text("Administrator", style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w300, letterSpacing: 1)),
-                        ],
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _user?.fullName ?? "<unknown>",
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400),
+                            ),
+                            Text(
+                              _user?.role.name ?? "<unknown>",
+                              style: const TextStyle(fontSize: 11.0, fontWeight: FontWeight.w300, letterSpacing: 1),
+                            ),
+                          ],
+                        ),
                       ),
-                      const Spacer(),
                       AxButton.ghost(
                         onPressed: () {
                           ref.read(authProvider).signOut();

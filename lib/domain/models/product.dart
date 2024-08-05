@@ -2,6 +2,7 @@ import 'package:sena_inventory_management/domain/domain.dart';
 
 class Product {
   final String id;
+  final List<String> images;
   final String name;
   final String description;
   final ProductType type;
@@ -13,6 +14,7 @@ class Product {
 
   Product({
     required this.id,
+    required this.images,
     required this.name,
     required this.description,
     required this.type,
@@ -26,6 +28,7 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json["id"],
+      images: (json["images"] as List<dynamic>).map((e) => e.toString()).toList(),
       name: json["name"],
       description: json["description"],
       type: ProductType.fromJson(json["expand"]["type"]),
@@ -53,7 +56,7 @@ class Product {
 
   @override
   String toString() {
-    return "Product(id: $id, name: $name, description: $description, type: $type, state: $state, price: $price, unit: $unit, createdAt: $createdAt, updatedAt: $updatedAt)";
+    return "Product(id: $id, images: $images, name: $name, description: $description, type: $type, state: $state, price: $price, unit: $unit, createdAt: $createdAt, updatedAt: $updatedAt)";
   }
 }
 

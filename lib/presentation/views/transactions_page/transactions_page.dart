@@ -1,3 +1,5 @@
+import 'package:async_widget_builder/async_widget_builder.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/presentation/providers/providers.dart';
@@ -10,23 +12,35 @@ class TransactionsPage extends ConsumerStatefulWidget {
 }
 
 class _OrdersPageState extends ConsumerState<TransactionsPage> {
-  @override
-  void initState() {
-    super.initState();
-    onInit();
-  }
-
-  Future<void> onInit() async {
-    final transactions = await ref.read(transactionRepositoryProvider).getAll();
-
-    for (final transaction in transactions) {
-      print(transaction.productTransactions.length);
-      print(transaction.productTransactions.map((e) => "${e.product.name} : ${e.amount}").toList());
-    }
-  }
+  late final _transactions = ref.read(transactionRepositoryProvider).getAll();
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Transactions"));
+    return _transactions.buildWidget(
+      data: (data) {
+        return ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final transaction = data[index];
+            return ListTile(
+              title: Text(transaction.type),
+              subtitle: Text(transaction.responsible.fullName),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(transaction.source.name),
+                  const SizedBox(width: 10),
+                  const Icon(FluentIcons.arrow_right_24_regular),
+                  const SizedBox(width: 10),
+                  Text(transaction.destination.name),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => const Center(child: Text("Error")),
+    );
   }
 }

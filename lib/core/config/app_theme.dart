@@ -19,48 +19,66 @@ class AppTheme {
     final scheme = colorScheme(isDarkMode);
     return ThemeData(
       colorScheme: scheme,
-      fontFamily: "GeneralSans",
+      fontFamily: "PublicSans",
       visualDensity: VisualDensity.compact,
       splashFactory: kIsWeb ? NoSplash.splashFactory : InkSparkle.splashFactory,
       textTheme: const TextTheme(
-        bodySmall: TextStyle(fontSize: 9),
-        bodyMedium: TextStyle(fontSize: 12),
-        bodyLarge: TextStyle(fontSize: 14),
+        bodySmall: TextStyle(
+          fontSize: 9,
+          fontVariations: [FontVariation('wght', 400)],
+        ),
+        bodyMedium: TextStyle(
+          fontSize: 12,
+          fontVariations: [FontVariation('wght', 400)],
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 14,
+          fontVariations: [FontVariation('wght', 400)],
+        ),
         displayLarge: TextStyle(
           fontSize: 28,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 500)],
         ),
         displayMedium: TextStyle(
           fontSize: 32,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 500)],
         ),
         displaySmall: TextStyle(
           fontSize: 36,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 500)],
         ),
         headlineSmall: TextStyle(
           fontSize: 16,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 500)],
         ),
         headlineMedium: TextStyle(
           fontSize: 20,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 500)],
         ),
         headlineLarge: TextStyle(
           fontSize: 24,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 500)],
         ),
         titleSmall: TextStyle(
           fontSize: 18,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 300)],
         ),
         titleMedium: TextStyle(
           fontSize: 22,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 300)],
         ),
         titleLarge: TextStyle(
           fontSize: 26,
           fontFamily: 'Satoshi',
+          fontVariations: [FontVariation('wght', 300)],
         ),
         labelSmall: TextStyle(fontSize: 9),
         labelMedium: TextStyle(fontSize: 12),

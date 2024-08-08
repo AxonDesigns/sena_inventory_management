@@ -1,29 +1,28 @@
+import 'package:pocketbase/pocketbase.dart';
 import 'package:sena_inventory_management/domain/models/department.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
 
-class City {
+class City extends Model {
   City({
-    required this.id,
+    required super.id,
     required this.name,
     required this.department,
-    required this.created,
-    required this.updated,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory City.fromJson(Map<String, dynamic> json) {
+  factory City.fromRecord(RecordModel record) {
     return City(
-      id: json['id'],
-      name: json['name'],
-      department: Department.fromJson(json['expand']['department']),
-      created: DateTime.parse(json['created']),
-      updated: DateTime.parse(json['updated']),
+      id: record.id,
+      name: record.getStringValue('name'),
+      department: Department.fromRecord(record.expand['department']!.first),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 
-  final String id;
   final String name;
   final Department department;
-  final DateTime created;
-  final DateTime updated;
 
   toJson() => {
         'id': id,

@@ -1,5 +1,5 @@
-export 'ax_button.dart';
-export 'ax_link.dart';
+export 'button.dart';
+export 'link.dart';
 export 'ax_text_input.dart';
 export 'window_page.dart';
 export 'noisy_backdrop.dart';

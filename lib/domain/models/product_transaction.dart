@@ -1,15 +1,23 @@
+import 'package:pocketbase/pocketbase.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
 import 'package:sena_inventory_management/domain/models/models.dart';
 
-class ProductTransaction {
+class ProductTransaction extends Model {
   ProductTransaction({
+    required super.id,
     required this.product,
     required this.amount,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory ProductTransaction.fromJson(Map<String, dynamic> json) {
+  factory ProductTransaction.fromRecord(RecordModel record) {
     return ProductTransaction(
-      product: Product.fromJson(json['expand']["product"]),
-      amount: double.parse(json["amount"].toString()),
+      id: record.id,
+      product: Product.fromRecord(record.expand["product"]!.first),
+      amount: record.getDoubleValue("amount"),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 

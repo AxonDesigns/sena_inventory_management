@@ -5,3 +5,4 @@ export 'dashboard_page/dashboard_page.dart';
 export 'stock_page/stock_page.dart';
 export 'transactions_page/transactions_page.dart';
 export 'employees_page/employees_page.dart';
+export 'products_page/products_page.dart';

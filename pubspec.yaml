@@ -22,6 +22,8 @@ dependencies:
   pocketbase: ^0.18.1
   dio: ^5.5.0+1
   connectivity_plus: ^6.0.4
+  currency_text_input_formatter: ^2.2.3
+  data_table_2: ^2.5.15
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +36,11 @@ flutter:
   assets:
     - assets/images/
   fonts:
+    - family: PublicSans
+      fonts:
+        - asset: assets/fonts/public_sans/PublicSans-Variable.ttf
+        - asset: assets/fonts/public_sans/PublicSans-VariableItalic.ttf
+          style: italic
     - family: GeneralSans
       fonts:
         - asset: assets/fonts/general_sans/GeneralSans-Variable.ttf

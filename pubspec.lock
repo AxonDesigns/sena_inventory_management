@@ -106,6 +106,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  currency_text_input_formatter:
+    dependency: "direct main"
+    description:
+      name: currency_text_input_formatter
+      sha256: d2eed8c7d40520729ac38252368954aba430a7ee510e5d5357e45cde1f6417a6
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
+  data_table_2:
+    dependency: "direct main"
+    description:
+      name: data_table_2
+      sha256: f02ec9b24f44420816a87370ff4f4e533e15b274f6267e4c9a88a585ad1a0473
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.15"
   dbus:
     dependency: transitive
     description:
@@ -242,6 +258,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.0"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   json_annotation:
     dependency: transitive
     description:

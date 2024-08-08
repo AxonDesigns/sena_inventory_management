@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/core/core.dart';
 
-class AxLink extends ConsumerStatefulWidget {
-  const AxLink({
+class Link extends ConsumerStatefulWidget {
+  const Link({
     super.key,
     required this.child,
     this.onPressed,
@@ -16,7 +16,7 @@ class AxLink extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AxLinkState();
 }
 
-class _AxLinkState extends ConsumerState<AxLink> {
+class _AxLinkState extends ConsumerState<Link> {
   var hovered = false;
 
   @override

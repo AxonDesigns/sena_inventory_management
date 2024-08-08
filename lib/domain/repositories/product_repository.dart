@@ -9,8 +9,27 @@ class ProductRepository {
   final PocketBase pocketBase;
 
   Future<List<Product>> getAll() async {
-    final records = await pocketBase.collection('products').getFullList(expand: 'type,state,unit');
-    final products = records.map((record) => Product.fromJson(record.toJson())).toList();
+    final records = await pocketBase.collection('products').getFullList(expand: 'type,state,unit,categories', sort: 'updated');
+    final token = await pocketBase.files.getToken();
+
+    final products = Future.wait(records.map((record) async {
+      final imageNames = record.getListValue('images', <String>[]);
+      final urls = imageNames.map((imageName) => pocketBase.getFileUrl(record, imageName, token: token, thumb: '30x30')).toList();
+      final product = Product.fromRecord(record);
+      product.urls = urls.map((url) => url.toString()).toList();
+      return product;
+    }).toList());
     return products;
+  }
+
+  Future<Product> getById(String id) async {
+    final token = await pocketBase.files.getToken();
+
+    final record = await pocketBase.collection('products').getOne(id, expand: 'type,state,unit,categories');
+    final imageNames = record.getListValue('images', <String>[]);
+    final urls = imageNames.map((imageName) => pocketBase.getFileUrl(record, imageName, token: token, thumb: '30x30')).toList();
+    final product = Product.fromRecord(record);
+    product.urls = urls.map((url) => url.toString()).toList();
+    return product;
   }
 }

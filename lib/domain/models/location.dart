@@ -1,36 +1,35 @@
+import 'package:pocketbase/pocketbase.dart';
 import 'package:sena_inventory_management/domain/models/city.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
 import 'package:sena_inventory_management/domain/models/models.dart';
 
-class Location {
+class Location extends Model {
   Location({
-    required this.id,
+    required super.id,
     required this.name,
     required this.address,
     required this.city,
     required this.type,
-    required this.created,
-    required this.updated,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory Location.fromJson(Map<String, dynamic> json) {
+  factory Location.fromRecord(RecordModel record) {
     return Location(
-      id: json['id'],
-      name: json['name'],
-      address: json['address'],
-      city: City.fromJson(json['expand']['city']),
-      type: LocationType.fromJson(json['expand']['type']),
-      created: DateTime.parse(json['created']),
-      updated: DateTime.parse(json['updated']),
+      id: record.id,
+      name: record.getStringValue('name'),
+      address: record.getStringValue('address'),
+      city: City.fromRecord(record.expand['city']!.first),
+      type: LocationType.fromRecord(record.expand['type']!.first),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 
-  final String id;
   final String name;
   final String address;
   final City city;
   final LocationType type;
-  final DateTime created;
-  final DateTime updated;
 
   toJson() => {
         'id': id,

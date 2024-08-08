@@ -10,6 +10,7 @@ const String dashboardRoute = '/dashboard';
 const String stockRoute = '/stock';
 const String transactionsRoute = '/transactions';
 const String employeesRoute = '/employees';
+const String productsRoute = '/products';
 
 GoRouter appRouter<T>(ProviderRef<T> ref) {
   return GoRouter(
@@ -38,6 +39,13 @@ GoRouter appRouter<T>(ProviderRef<T> ref) {
                   pageBuilder: (context, state) => WindowPage(
                     key: state.pageKey,
                     child: const DashboardPage(),
+                  ),
+                ),
+                GoRoute(
+                  path: productsRoute,
+                  pageBuilder: (context, state) => WindowPage(
+                    key: state.pageKey,
+                    child: const ProductsPage(),
                   ),
                 ),
                 GoRoute(

@@ -1,27 +1,27 @@
-class LocationType {
+import 'package:pocketbase/pocketbase.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
+
+class LocationType extends Model {
   LocationType({
-    required this.id,
+    required super.id,
     required this.name,
     required this.description,
-    required this.created,
-    required this.updated,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory LocationType.fromJson(Map<String, dynamic> json) {
+  factory LocationType.fromRecord(RecordModel record) {
     return LocationType(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      created: DateTime.parse(json['created']),
-      updated: DateTime.parse(json['updated']),
+      id: record.id,
+      name: record.getStringValue('name'),
+      description: record.getStringValue('description'),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 
-  final String id;
   final String name;
   final String description;
-  final DateTime created;
-  final DateTime updated;
 
   toJson() => {
         'id': id,

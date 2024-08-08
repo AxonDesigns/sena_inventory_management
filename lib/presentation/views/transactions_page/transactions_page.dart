@@ -24,7 +24,7 @@ class _OrdersPageState extends ConsumerState<TransactionsPage> {
             final transaction = data[index];
             return ListTile(
               title: Text(transaction.type),
-              subtitle: Text(transaction.responsible.fullName),
+              subtitle: Text(transaction.responsable.fullName),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

@@ -1,25 +1,25 @@
-class ProductState {
-  final String id;
+import 'package:pocketbase/pocketbase.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
+
+class ProductState extends Model {
   final String name;
   final String description;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
   ProductState({
-    required this.id,
+    required super.id,
     required this.name,
     required this.description,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory ProductState.fromJson(Map<String, dynamic> json) {
+  factory ProductState.fromRecord(RecordModel record) {
     return ProductState(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      createdAt: DateTime.parse(json["created"]),
-      updatedAt: DateTime.parse(json["updated"]),
+      id: record.id,
+      name: record.getStringValue('name'),
+      description: record.getStringValue('description'),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 
@@ -28,13 +28,13 @@ class ProductState {
       "id": id,
       "name": name,
       "description": description,
-      "created": createdAt.toIso8601String(),
-      "updated": updatedAt.toIso8601String(),
+      "created": created.toIso8601String(),
+      "updated": updated.toIso8601String(),
     };
   }
 
   @override
   String toString() {
-    return "ProductState(id: $id,  name: $name,  description: $description,  createdAt: $createdAt,  updatedAt: $updatedAt)";
+    return "ProductState(id: $id,  name: $name,  description: $description,  createdAt: $created,  updatedAt: $updated)";
   }
 }

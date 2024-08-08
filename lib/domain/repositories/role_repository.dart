@@ -9,6 +9,6 @@ class RoleRepository extends Repository<Role> {
 
   Future<List<Role>> getAll() async {
     final records = await pocketbase.collection("roles").getFullList(sort: "+privilege");
-    return records.map((record) => Role.fromJson(record.toJson())).toList();
+    return records.map((record) => Role.fromRecord(record)).toList();
   }
 }

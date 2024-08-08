@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/core/core.dart';
 import 'package:sena_inventory_management/presentation/providers/providers.dart';
 
-class AxButton extends ConsumerStatefulWidget {
-  const AxButton.custom({
+class Button extends ConsumerStatefulWidget {
+  const Button.custom({
     super.key,
     this.children = const [],
     this.builder,
@@ -19,7 +19,7 @@ class AxButton extends ConsumerStatefulWidget {
     this.canBeFocused = true,
   }) : type = null;
 
-  const AxButton.primary({
+  const Button.primary({
     super.key,
     this.children = const [],
     this.builder,
@@ -34,7 +34,7 @@ class AxButton extends ConsumerStatefulWidget {
         useOutline = false,
         animateOpacity = false;
 
-  const AxButton.secondary({
+  const Button.secondary({
     super.key,
     this.children = const [],
     this.builder,
@@ -49,7 +49,7 @@ class AxButton extends ConsumerStatefulWidget {
         useOutline = false,
         animateOpacity = false;
 
-  const AxButton.outline({
+  const Button.outline({
     super.key,
     this.children = const [],
     this.builder,
@@ -64,7 +64,7 @@ class AxButton extends ConsumerStatefulWidget {
         useOutline = true,
         animateOpacity = true;
 
-  const AxButton.ghost({
+  const Button.ghost({
     super.key,
     this.children = const [],
     this.builder,
@@ -79,7 +79,7 @@ class AxButton extends ConsumerStatefulWidget {
         useOutline = false,
         animateOpacity = true;
 
-  const AxButton.glass({
+  const Button.glass({
     super.key,
     this.children = const [],
     this.builder,
@@ -111,7 +111,7 @@ class AxButton extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AxButtonState();
 }
 
-class _AxButtonState extends ConsumerState<AxButton> {
+class _AxButtonState extends ConsumerState<Button> {
   var hovered = false;
   var pressed = false;
   var _focusNode = FocusNode();

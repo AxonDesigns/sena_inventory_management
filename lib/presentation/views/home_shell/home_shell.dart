@@ -19,7 +19,7 @@ class _HomePageState extends ConsumerState<HomeShell> {
   final _navRailSize = 45.0;
   final _navRailGap = 5.0;
   User? _user;
-  final _routes = [dashboardRoute, stockRoute, transactionsRoute, employeesRoute];
+  final _routes = [dashboardRoute, productsRoute, stockRoute, transactionsRoute, employeesRoute];
 
   @override
   void initState() {
@@ -59,6 +59,10 @@ class _HomePageState extends ConsumerState<HomeShell> {
                 NavRailItem(
                   title: "Dashboard",
                   icon: FluentIcons.data_bar_vertical_20_filled,
+                ),
+                NavRailItem(
+                  title: "Products",
+                  icon: FluentIcons.box_16_filled,
                 ),
                 NavRailItem(
                   title: "Stock",
@@ -165,7 +169,7 @@ class _HomePageState extends ConsumerState<HomeShell> {
                           ],
                         ),
                       ),
-                      AxButton.ghost(
+                      Button.ghost(
                         onPressed: () {
                           ref.read(authProvider).signOut();
                           ref.read(appRouterProvider).go(loginRoute);

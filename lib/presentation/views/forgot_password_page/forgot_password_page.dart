@@ -78,7 +78,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AxButton.outline(
+                      Button.outline(
                         onPressed: () {
                           widget.onBackPressed?.call();
                         },
@@ -91,7 +91,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                       ),
                       const SizedBox(width: 8.0),
                       Expanded(
-                        child: AxButton.primary(
+                        child: Button.primary(
                           onPressed: () => _handleRequest(),
                           children: const [
                             Padding(

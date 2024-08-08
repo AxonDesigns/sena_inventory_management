@@ -8,3 +8,4 @@ export 'location.dart';
 export 'location_type.dart';
 export 'transaction.dart';
 export 'product_transaction.dart';
+export 'category.dart';

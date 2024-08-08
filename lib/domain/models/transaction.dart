@@ -1,46 +1,46 @@
+import 'package:pocketbase/pocketbase.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
+
 import 'models.dart';
 
-class Transaction {
+class Transaction extends Model {
   Transaction({
-    required this.id,
+    required super.id,
     required this.type,
-    required this.responsible,
+    required this.responsable,
     required this.source,
     required this.destination,
     required this.description,
-    required this.created,
-    required this.updated,
+    required super.created,
+    required super.updated,
     required this.productTransactions,
-  });
+  }) : super(record: RecordModel());
 
-  factory Transaction.fromJson(Map<String, dynamic> json, List<ProductTransaction> productTransactions) {
+  factory Transaction.fromRecord(RecordModel record, List<ProductTransaction> productTransactions) {
     return Transaction(
-      id: json['id'],
-      type: json['type'],
-      responsible: User.fromJson(json['expand']['responsible']),
-      source: Location.fromJson(json['expand']['source']),
-      destination: Location.fromJson(json['expand']['destination']),
-      description: json['description'],
-      created: DateTime.parse(json['created']),
-      updated: DateTime.parse(json['updated']),
+      id: record.id,
+      type: record.getStringValue('type'),
+      responsable: User.fromRecord(record.expand['responsable']!.first),
+      source: Location.fromRecord(record.expand['source']!.first),
+      destination: Location.fromRecord(record.expand['destination']!.first),
+      description: record.getStringValue('description'),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
       productTransactions: productTransactions,
     );
   }
 
-  final String id;
   final String type;
-  final User responsible;
+  final User responsable;
   final Location source;
   final Location destination;
   final String? description;
-  final DateTime created;
-  final DateTime updated;
   final List<ProductTransaction> productTransactions;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'type': type,
-        'responsible': responsible.toJson(),
+        'responsible': responsable.toJson(),
         'source': source.toJson(),
         'destination': destination.toJson(),
         'description': description,
@@ -50,6 +50,6 @@ class Transaction {
 
   @override
   String toString() {
-    return 'Transaction(id: $id, type: $type, responsible: $responsible, source: $source, destination: $destination, description: $description, created: $created, updated: $updated)';
+    return 'Transaction(id: $id, type: $type, responsable: $responsable, source: $source, destination: $destination, description: $description, created: $created, updated: $updated)';
   }
 }

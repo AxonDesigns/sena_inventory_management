@@ -31,7 +31,7 @@ class AuthRepository extends Repository<User> {
 
     final currentModel = await model;
     if (currentModel == null) return null;
-    _user = User.fromJson(currentModel.toJson());
+    _user = User.fromRecord(currentModel);
 
     return _user;
   }
@@ -68,7 +68,7 @@ class AuthRepository extends Repository<User> {
       final recordAuth = await pocketbase.collection("users").authWithPassword(email, password, expand: 'role');
       final record = recordAuth.record;
       if (record == null) return Result(error: ClientException());
-      return Result(data: User.fromJson(record.toJson()));
+      return Result(data: User.fromRecord(record));
     } on ClientException catch (e) {
       return Result(error: e);
     }
@@ -107,7 +107,7 @@ class AuthRepository extends Repository<User> {
       return Result(error: e);
     }
 
-    return Result(data: User.fromJson(recordModel.toJson()));
+    return Result(data: User.fromRecord(recordModel));
   }
 
   void signOut() {

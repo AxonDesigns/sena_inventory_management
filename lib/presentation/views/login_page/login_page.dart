@@ -50,7 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         style: context.theme.textTheme.headlineSmall!.copyWith(fontSize: 14.0),
                       ),
                       const SizedBox(height: 8.0),
-                      AxButton.primary(
+                      Button.primary(
                         onPressed: () => context.popOverlay(),
                         children: const [
                           Text("Accept"),
@@ -132,12 +132,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ]),
                 ),
                 const SizedBox(height: 4.0),
-                AxLink(
+                Link(
                   child: const Text("Forgot Password?"),
                   onPressed: () => _handleForgotPassword(),
                 ),
                 const SizedBox(height: 8.0 * 4.0),
-                AxButton.primary(
+                Button.primary(
                   onPressed: () => _handleSignIn(),
                   children: const [
                     Padding(

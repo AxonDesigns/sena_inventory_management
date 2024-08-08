@@ -1,42 +1,43 @@
+import 'package:pocketbase/pocketbase.dart';
 import 'package:sena_inventory_management/domain/domain.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
 
-class Product {
-  final String id;
+class Product extends Model {
   final List<String> images;
   final String name;
   final String description;
-  final ProductType type;
   final ProductState state;
   final double price;
   final Unit unit;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final List<Category> categories;
+  List<String> urls;
 
   Product({
-    required this.id,
+    required super.id,
     required this.images,
     required this.name,
     required this.description,
-    required this.type,
     required this.state,
     required this.price,
     required this.unit,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+    required this.categories,
+    required super.created,
+    required super.updated,
+    this.urls = const [],
+  }) : super(record: RecordModel());
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromRecord(RecordModel model) {
     return Product(
-      id: json["id"],
-      images: (json["images"] as List<dynamic>).map((e) => e.toString()).toList(),
-      name: json["name"],
-      description: json["description"],
-      type: ProductType.fromJson(json["expand"]["type"]),
-      state: ProductState.fromJson(json["expand"]["state"]),
-      price: double.parse(json["price"].toString()),
-      unit: Unit.fromJson(json["expand"]["unit"]),
-      createdAt: DateTime.parse(json["created"]),
-      updatedAt: DateTime.parse(json["updated"]),
+      id: model.id,
+      images: model.getListValue('images', <String>[]),
+      name: model.getStringValue('name'),
+      description: model.getStringValue('description'),
+      state: ProductState.fromRecord(model.expand['state']!.first),
+      price: model.getDoubleValue('price'),
+      unit: Unit.fromRecord(model.expand['unit']!.first),
+      categories: model.getListValue('expand.categories', <Category>[]),
+      created: DateTime.parse(model.created),
+      updated: DateTime.parse(model.updated),
     );
   }
 
@@ -45,18 +46,18 @@ class Product {
       "id": id,
       "name": name,
       "description": description,
-      "type": type.toJson(),
       "state": state.toJson(),
       "price": price,
       "unit": unit.toJson(),
-      "created": createdAt.toIso8601String(),
-      "updated": updatedAt.toIso8601String(),
+      "categories": categories.map((e) => e.toJson()).toList(),
+      "created": created.toIso8601String(),
+      "updated": updated.toIso8601String(),
     };
   }
 
   @override
   String toString() {
-    return "Product(id: $id, images: $images, name: $name, description: $description, type: $type, state: $state, price: $price, unit: $unit, createdAt: $createdAt, updatedAt: $updatedAt)";
+    return "Product(id: $id, images: $images, name: $name, description: $description, state: $state, price: $price, unit: $unit, categories: $categories, created: $created, updated: $updated)";
   }
 }
 

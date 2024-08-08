@@ -193,7 +193,7 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                       ),
                     ),
                     if (widget.showToggleObscureButton)
-                      AxButton.ghost(
+                      Button.ghost(
                         onPressed: () {
                           setState(() {
                             unObscured = !unObscured;

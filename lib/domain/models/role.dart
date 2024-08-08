@@ -1,22 +1,28 @@
-class Role {
-  final String id;
+import 'package:pocketbase/pocketbase.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
+
+class Role extends Model {
   final String name;
   final String description;
   final int privilege;
 
-  const Role({
-    required this.id,
+  Role({
+    required super.id,
     required this.name,
     required this.description,
     required this.privilege,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory Role.fromJson(Map<String, dynamic> json) {
+  factory Role.fromRecord(RecordModel record) {
     return Role(
-      id: json['id'].toString(),
-      name: json['name'].toString(),
-      description: json['description'].toString(),
-      privilege: int.parse(json['privilege'].toString()),
+      id: record.id,
+      name: record.getStringValue('name'),
+      description: record.getStringValue('description'),
+      privilege: record.getIntValue('privilege'),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 
@@ -26,6 +32,8 @@ class Role {
       'name': name,
       'description': description,
       'privilege': privilege,
+      'created': created.toIso8601String(),
+      'updated': updated.toIso8601String(),
     };
   }
 }

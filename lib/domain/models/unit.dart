@@ -1,25 +1,25 @@
-class Unit {
-  final String id;
+import 'package:pocketbase/pocketbase.dart';
+import 'package:sena_inventory_management/domain/models/model.dart';
+
+class Unit extends Model {
   final String symbol;
   final String name;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
   Unit({
-    required this.id,
+    required super.id,
     required this.symbol,
     required this.name,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+    required super.created,
+    required super.updated,
+  }) : super(record: RecordModel());
 
-  factory Unit.fromJson(Map<String, dynamic> json) {
+  factory Unit.fromRecord(RecordModel record) {
     return Unit(
-      id: json["id"],
-      symbol: json["symbol"],
-      name: json["name"],
-      createdAt: DateTime.parse(json["created"]),
-      updatedAt: DateTime.parse(json["updated"]),
+      id: record.id,
+      symbol: record.getStringValue('symbol'),
+      name: record.getStringValue('name'),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
     );
   }
 
@@ -28,18 +28,13 @@ class Unit {
       "id": id,
       "symbol": symbol,
       "name": name,
-      "created": createdAt.toIso8601String(),
-      "updated": updatedAt.toIso8601String(),
+      "created": created.toIso8601String(),
+      "updated": updated.toIso8601String(),
     };
   }
 
   @override
   String toString() {
-    return "Unit(id: $id,  symbol: $symbol,  name: $name,  createdAt: $createdAt,  updatedAt: $updatedAt)";
+    return "Unit(id: $id,  symbol: $symbol,  name: $name,  createdAt: $created,  updatedAt: $updated)";
   }
 }
-
-///
-/// `users.username = ${user.username}`
-/// 'username = ' + user.username
-///  

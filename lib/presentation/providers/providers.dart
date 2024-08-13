@@ -5,3 +5,4 @@ export 'auth_provider.dart';
 export 'role_repository_provider.dart';
 export 'transaction_repository_provider.dart';
 export 'product_repository_provider.dart';
+export 'user_repository_provider.dart';

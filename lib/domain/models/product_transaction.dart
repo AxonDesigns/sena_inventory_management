@@ -7,15 +7,17 @@ class ProductTransaction extends Model {
     required super.id,
     required this.product,
     required this.amount,
+    required this.expirationDate,
     required super.created,
     required super.updated,
   }) : super(record: RecordModel());
 
-  factory ProductTransaction.fromRecord(RecordModel record) {
+  factory ProductTransaction.fromRecord(RecordModel record, [Product? product]) {
     return ProductTransaction(
       id: record.id,
-      product: Product.fromRecord(record.expand["product"]!.first),
+      product: product ?? Product.fromRecord(record.expand["product"]!.first),
       amount: record.getDoubleValue("amount"),
+      expirationDate: DateTime.tryParse(record.getDataValue("expiration_date").toString()),
       created: DateTime.parse(record.created),
       updated: DateTime.parse(record.updated),
     );
@@ -23,11 +25,13 @@ class ProductTransaction extends Model {
 
   final Product product;
   final double amount;
+  final DateTime? expirationDate;
 
   Map<String, dynamic> toJson() {
     return {
       'product': product.toJson(),
       'amount': amount,
+      'expiration_date': expirationDate?.toIso8601String(),
     };
   }
 

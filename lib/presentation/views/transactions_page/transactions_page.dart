@@ -6,6 +6,7 @@ import 'package:sena_inventory_management/core/core.dart';
 import 'package:sena_inventory_management/domain/domain.dart';
 import 'package:sena_inventory_management/presentation/presentation.dart';
 import 'package:sena_inventory_management/presentation/providers/providers.dart';
+import 'package:sena_inventory_management/presentation/views/transactions_page/transaction_card.dart';
 
 class TransactionsPage extends ConsumerStatefulWidget {
   const TransactionsPage({super.key});
@@ -52,7 +53,7 @@ class _OrdersPageState extends ConsumerState<TransactionsPage> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     final transaction = data[index];
-                    return _buildTransactionTile(context, transaction);
+                    return TransactionCard(transaction: transaction);
                   },
                 ),
               ),
@@ -62,8 +63,6 @@ class _OrdersPageState extends ConsumerState<TransactionsPage> {
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) {
-        print(error);
-        print(stack);
         return const Center(child: Text("Error"));
       },
     );

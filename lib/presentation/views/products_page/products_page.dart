@@ -1,5 +1,4 @@
 import 'package:async_widget_builder/async_widget_builder.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/core/core.dart';
 import 'package:sena_inventory_management/domain/models/product.dart';
 import 'package:sena_inventory_management/presentation/presentation.dart';
+import 'package:sena_inventory_management/presentation/views/products_page/product_creation.dart';
 
 class ProductsPage extends ConsumerStatefulWidget {
   const ProductsPage({super.key});
@@ -21,7 +21,6 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
     ..then((value) {
       _selected = List.generate(value.length, (index) => false);
     });
-  final _formatter = CurrencyTextInputFormatter.currency(locale: 'es_CO', decimalDigits: 2, name: 'COP');
 
   final int _pageSize = 10;
   int _page = 0;
@@ -72,7 +71,20 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                       const SizedBox(width: 10),
                       Button.outline(onPressed: () {}, children: const [Icon(FluentIcons.arrow_down_12_regular), Text('Import')]),
                       const SizedBox(width: 10),
-                      Button.primary(onPressed: () {}, children: const [Icon(FluentIcons.add_12_regular), Text('New')]),
+                      Button.primary(
+                          onPressed: () {
+                            var result = context.showOverlay<Product?>(
+                              builder: (context, content, alpha) {
+                                return Transform.translate(
+                                  offset: Offset(alpha.lerp(25, 0.0), 0.0),
+                                  child: Opacity(opacity: alpha, child: content),
+                                );
+                              },
+                              child: const ProductCreation(),
+                            );
+                            print(result);
+                          },
+                          children: const [Icon(FluentIcons.add_12_regular), Text('New')]),
                     ],
                   ),
                 ),
@@ -141,7 +153,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                             cells: [
                               DataCell(Text(product.name)),
                               DataCell(Text(product.description)),
-                              DataCell(Text(_formatter.formatDouble(product.price))),
+                              DataCell(Text(currencyFormatter.formatDouble(product.price))),
                               DataCell(Text('${product.unit.name} (${product.unit.symbol})')),
                               DataCell(Text(formatDate(product.created))),
                               DataCell(Text(formatDate(product.updated))),

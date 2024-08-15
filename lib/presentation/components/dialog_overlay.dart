@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/presentation/presentation.dart';
 
@@ -20,12 +21,35 @@ class DialogOverlayState extends ConsumerState<DialogOverlay> {
   Completer _completer = Completer();
 
   @override
+  void initState() {
+    super.initState();
+    ServicesBinding.instance.keyboard.addHandler(_onKeyEvent);
+  }
+
+  @override
+  void dispose() {
+    ServicesBinding.instance.keyboard.removeHandler(_onKeyEvent);
+    super.dispose();
+  }
+
+  bool _onKeyEvent(KeyEvent event) {
+    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.escape) {
+      popOverlay();
+      return true;
+    }
+    return false;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(child: widget.child),
-        Stack(children: _widgetStack.map((e) => Builder(builder: (context) => e)).toList()),
-      ],
+    return Listener(
+      onPointerDown: (event) => event.buttons == 8 ? popOverlay() : null,
+      child: Stack(
+        children: [
+          Positioned.fill(child: widget.child),
+          Stack(children: _widgetStack.map((e) => Builder(builder: (context) => e)).toList()),
+        ],
+      ),
     );
   }
 

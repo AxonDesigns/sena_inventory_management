@@ -7,6 +7,7 @@ class Transaction extends Model {
   Transaction({
     required super.id,
     required this.type,
+    required this.status,
     required this.responsable,
     required this.source,
     required this.destination,
@@ -16,11 +17,12 @@ class Transaction extends Model {
     required this.productTransactions,
   }) : super(record: RecordModel());
 
-  factory Transaction.fromRecord(RecordModel record, List<ProductTransaction> productTransactions) {
+  factory Transaction.fromRecord(RecordModel record, List<ProductTransaction> productTransactions, [User? responsable]) {
     return Transaction(
       id: record.id,
+      status: record.getStringValue('status'),
       type: record.getStringValue('type'),
-      responsable: User.fromRecord(record.expand['responsable']!.first),
+      responsable: responsable ?? User.fromRecord(record.expand['responsable']!.first),
       source: Location.fromRecord(record.expand['source']!.first),
       destination: Location.fromRecord(record.expand['destination']!.first),
       description: record.getStringValue('description'),
@@ -31,6 +33,7 @@ class Transaction extends Model {
   }
 
   final String type;
+  final String status;
   final User responsable;
   final Location source;
   final Location destination;
@@ -39,6 +42,7 @@ class Transaction extends Model {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'status': status,
         'type': type,
         'responsible': responsable.toJson(),
         'source': source.toJson(),

@@ -10,6 +10,7 @@ class User extends Model {
   final String phoneNumber;
   final String citizenId;
   final String avatar;
+  final String? avatarPath;
 
   User({
     required super.id,
@@ -22,9 +23,10 @@ class User extends Model {
     required this.avatar,
     required super.created,
     required super.updated,
+    this.avatarPath,
   }) : super(record: RecordModel());
 
-  factory User.fromRecord(RecordModel record) {
+  factory User.fromRecord(RecordModel record, {String? avatarPath}) {
     return User(
       id: record.id,
       username: record.getStringValue('username'),
@@ -34,6 +36,7 @@ class User extends Model {
       phoneNumber: record.getStringValue('phone_number'),
       citizenId: record.getStringValue('citizen_id'),
       avatar: record.getStringValue('avatar'),
+      avatarPath: avatarPath,
       created: DateTime.parse(record.created),
       updated: DateTime.parse(record.updated),
     );

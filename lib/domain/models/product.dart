@@ -8,6 +8,7 @@ class Product extends Model {
   final String description;
   final ProductState state;
   final double price;
+  final double unitReference;
   final Unit unit;
   final List<Category> categories;
   List<String> urls;
@@ -19,6 +20,7 @@ class Product extends Model {
     required this.description,
     required this.state,
     required this.price,
+    required this.unitReference,
     required this.unit,
     required this.categories,
     required super.created,
@@ -34,6 +36,7 @@ class Product extends Model {
       description: model.getStringValue('description'),
       state: ProductState.fromRecord(model.expand['state']!.first),
       price: model.getDoubleValue('price'),
+      unitReference: model.getDoubleValue('unit_reference'),
       unit: Unit.fromRecord(model.expand['unit']!.first),
       categories: model.getListValue('expand.categories', <Category>[]),
       created: DateTime.parse(model.created),
@@ -48,6 +51,7 @@ class Product extends Model {
       "description": description,
       "state": state.toJson(),
       "price": price,
+      "unit_reference": unitReference,
       "unit": unit.toJson(),
       "categories": categories.map((e) => e.toJson()).toList(),
       "created": created.toIso8601String(),

@@ -152,7 +152,10 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                             color: WidgetStatePropertyAll(context.colorScheme.surfaceContainerLow.withOpacity(index % 2 == 0 ? 0.5 : 1.0)),
                             cells: [
                               DataCell(Text(product.name)),
-                              DataCell(Text(product.description)),
+                              DataCell(Text(
+                                product.description.isEmpty ? 'No description' : product.description,
+                                style: product.description.isEmpty ? TextStyle(color: context.colorScheme.onSurface.withOpacity(0.5)) : null,
+                              )),
                               DataCell(Text(currencyFormatter.formatDouble(product.price))),
                               DataCell(Text('${product.unit.name} (${product.unit.symbol})')),
                               DataCell(Text(formatDate(product.created))),

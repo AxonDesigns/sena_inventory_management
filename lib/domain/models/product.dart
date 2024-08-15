@@ -6,7 +6,6 @@ class Product extends Model {
   final List<String> images;
   final String name;
   final String description;
-  final ProductState state;
   final double price;
   final double unitReference;
   final Unit unit;
@@ -18,7 +17,6 @@ class Product extends Model {
     required this.images,
     required this.name,
     required this.description,
-    required this.state,
     required this.price,
     required this.unitReference,
     required this.unit,
@@ -34,7 +32,6 @@ class Product extends Model {
       images: model.getListValue('images', <String>[]),
       name: model.getStringValue('name'),
       description: model.getStringValue('description'),
-      state: ProductState.fromRecord(model.expand['state']!.first),
       price: model.getDoubleValue('price'),
       unitReference: model.getDoubleValue('unit_reference'),
       unit: Unit.fromRecord(model.expand['unit']!.first),
@@ -49,7 +46,6 @@ class Product extends Model {
       "id": id,
       "name": name,
       "description": description,
-      "state": state.toJson(),
       "price": price,
       "unit_reference": unitReference,
       "unit": unit.toJson(),
@@ -61,7 +57,7 @@ class Product extends Model {
 
   @override
   String toString() {
-    return "Product(id: $id, images: $images, name: $name, description: $description, state: $state, price: $price, unit: $unit, categories: $categories, created: $created, updated: $updated)";
+    return "Product(id: $id, images: $images, name: $name, description: $description, price: $price, unit: $unit, categories: $categories, created: $created, updated: $updated)";
   }
 }
 

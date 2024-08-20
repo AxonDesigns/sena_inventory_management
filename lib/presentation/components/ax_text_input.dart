@@ -131,6 +131,7 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                           widget.labelText,
                           style: context.theme.textTheme.labelMedium!.copyWith(
                             fontSize: 11.0,
+                            fontVariations: [const FontVariation('wght', 400)],
                             color: widget.errorText != null ? Colors.red : context.colorScheme.onSurface,
                           ),
                         ),

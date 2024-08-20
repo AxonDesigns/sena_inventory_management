@@ -42,7 +42,50 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                   const SizedBox(height: 14),
                   AxTextInputForm(labelText: 'Price', required: true),
                   const SizedBox(height: 14),
-                  AxTextInputForm(labelText: 'Unit', required: true),
+                  FormField<String>(
+                    initialValue: 'kg',
+                    builder: (field) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: context.colorScheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 14.0, top: 10.0),
+                              child: Text("Unit", style: context.theme.textTheme.bodyMedium),
+                            ),
+                            DropdownButton(
+                              underline: const SizedBox(),
+                              isDense: true,
+                              isExpanded: true,
+                              style: context.theme.textTheme.bodyMedium,
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              items: const [
+                                DropdownMenuItem(
+                                  value: 'kg',
+                                  child: Text('Kg'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'lb',
+                                  child: Text('Lb'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'g',
+                                  child: Text('G'),
+                                ),
+                              ],
+                              value: field.value,
+                              onChanged: (value) => field.didChange(value),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                   const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

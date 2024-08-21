@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sena_inventory_management/presentation/presentation.dart';
+import 'package:sena_inventory_management/presentation/views/testing_view/testing_view.dart';
 
 const String homeRoute = '/';
 const String loginRoute = '/login';
@@ -11,6 +12,7 @@ const String stockRoute = '/stock';
 const String transactionsRoute = '/transactions';
 const String employeesRoute = '/employees';
 const String productsRoute = '/products';
+const String testingRoute = '/testing';
 
 GoRouter appRouter<T>(ProviderRef<T> ref) {
   return GoRouter(
@@ -67,6 +69,13 @@ GoRouter appRouter<T>(ProviderRef<T> ref) {
                   pageBuilder: (context, state) => WindowPage(
                     key: state.pageKey,
                     child: const EmployeesPage(),
+                  ),
+                ),
+                GoRoute(
+                  path: testingRoute,
+                  pageBuilder: (context, state) => WindowPage(
+                    key: state.pageKey,
+                    child: const TestingView(),
                   ),
                 ),
               ],

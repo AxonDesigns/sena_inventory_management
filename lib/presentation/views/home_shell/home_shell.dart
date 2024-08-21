@@ -19,7 +19,7 @@ class _HomePageState extends ConsumerState<HomeShell> {
   final _navRailSize = 45.0;
   final _navRailGap = 5.0;
   User? _user;
-  final _routes = [dashboardRoute, productsRoute, stockRoute, transactionsRoute, employeesRoute];
+  final _routes = [dashboardRoute, productsRoute, stockRoute, transactionsRoute, employeesRoute, testingRoute];
 
   @override
   void initState() {
@@ -75,6 +75,10 @@ class _HomePageState extends ConsumerState<HomeShell> {
                 NavRailItem(
                   title: "Employees",
                   icon: FluentIcons.person_16_filled,
+                ),
+                NavRailItem(
+                  title: "Testing",
+                  icon: FluentIcons.bug_16_filled,
                 ),
               ],
               header: (minSize, maxSize, gap, isOpen) {

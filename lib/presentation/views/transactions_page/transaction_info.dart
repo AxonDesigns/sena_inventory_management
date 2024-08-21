@@ -117,8 +117,8 @@ class _TransactionInfoState extends ConsumerState<TransactionInfo> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: context.colorScheme.surfaceContainerHighest, width: 1),
                             borderRadius: BorderRadius.circular(4),
+                            color: context.colorScheme.surfaceContainerLowest,
                           ),
                           child: ListView.builder(
                             padding: const EdgeInsets.only(top: 14.0),

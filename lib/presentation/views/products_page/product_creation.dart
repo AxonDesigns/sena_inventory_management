@@ -17,6 +17,9 @@ class ProductCreation extends ConsumerStatefulWidget {
 }
 
 class _ProductCreationState extends ConsumerState<ProductCreation> {
+  final _test = GlobalKey<FormFieldState<String>>();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,6 +34,7 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
           child: Padding(
             padding: const EdgeInsets.all(14.0),
             child: Form(
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -38,54 +42,23 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                   const SizedBox(height: 14),
                   AxTextInputForm(labelText: 'Name', required: true),
                   const SizedBox(height: 14),
+                  AxTextInputForm(labelText: 'Image', required: true),
+                  const SizedBox(height: 14),
                   AxTextInputForm(labelText: 'Description', required: true),
                   const SizedBox(height: 14),
                   AxTextInputForm(labelText: 'Price', required: true),
                   const SizedBox(height: 14),
-                  FormField<String>(
-                    initialValue: 'kg',
-                    builder: (field) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: context.colorScheme.surfaceContainerHigh,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 14.0, top: 10.0),
-                              child: Text("Unit", style: context.theme.textTheme.bodyMedium),
-                            ),
-                            DropdownButton(
-                              underline: const SizedBox(),
-                              isDense: true,
-                              isExpanded: true,
-                              style: context.theme.textTheme.bodyMedium,
-                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'kg',
-                                  child: Text('Kg'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'lb',
-                                  child: Text('Lb'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'g',
-                                  child: Text('G'),
-                                ),
-                              ],
-                              value: field.value,
-                              onChanged: (value) => field.didChange(value),
-                            ),
-                          ],
-                        ),
-                      );
+                  DropdownField(
+                    formFieldKey: _test,
+                    labelText: 'Unit',
+                    items: const {
+                      'Kg': 'kg',
+                      'Lb': 'lb',
+                      'G': 'g',
                     },
                   ),
+                  const SizedBox(height: 14),
+                  AxTextInputForm(labelText: 'Unit Reference', required: true),
                   const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -98,9 +71,7 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                       ),
                       const SizedBox(width: 10),
                       Button.primary(
-                        onPressed: () {
-                          context.popOverlay();
-                        },
+                        onPressed: () {},
                         children: const [Text('Create')],
                       ),
                     ],
@@ -111,6 +82,65 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
           ),
         )
       ],
+    );
+  }
+}
+
+class DropdownField<T> extends StatelessWidget {
+  const DropdownField({
+    super.key,
+    this.formFieldKey,
+    required this.labelText,
+    required this.items,
+    this.onChanged,
+  });
+
+  final Key? formFieldKey;
+  final String labelText;
+  final Map<String, T> items;
+  final void Function(T? value)? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormField<T>(
+      key: formFieldKey,
+      initialValue: items.entries.first.value,
+      builder: (field) {
+        return Container(
+          decoration: BoxDecoration(
+            color: context.colorScheme.surfaceContainerHigh,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 14.0, top: 10.0),
+                child: Text(labelText, style: context.theme.textTheme.bodyMedium),
+              ),
+              DropdownButton(
+                underline: const SizedBox(),
+                isDense: true,
+                isExpanded: true,
+                style: context.theme.textTheme.bodyMedium,
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                items: items.entries
+                    .map((entry) => DropdownMenuItem(
+                          value: entry.value,
+                          child: Text(entry.key),
+                        ))
+                    .toList(),
+                value: field.value,
+                onChanged: (value) {
+                  field.didChange(value);
+                  onChanged?.call(value);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

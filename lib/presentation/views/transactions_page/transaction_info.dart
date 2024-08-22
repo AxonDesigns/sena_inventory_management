@@ -101,7 +101,7 @@ class _TransactionInfoState extends ConsumerState<TransactionInfo> {
                                 onPressed: () {
                                   context.showOverlay(
                                     builder: (context, content, alpha) {
-                                      return Center(
+                                      return const Center(
                                         child: Text('Add Product'),
                                       );
                                     },

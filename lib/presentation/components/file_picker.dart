@@ -10,11 +10,16 @@ import 'package:path/path.dart' as p;
 class AxFilePicker extends ConsumerStatefulWidget {
   const AxFilePicker({
     super.key,
+    required this.labelText,
+    this.required = false,
     this.multiSelect = false,
     required this.files,
     required this.onChanged,
     this.focusNode,
   });
+
+  final String labelText;
+  final bool required;
   final bool multiSelect;
   final FocusNode? focusNode;
   final List<String> files;
@@ -37,9 +42,22 @@ class _FilePickerState extends ConsumerState<AxFilePicker> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('File Picker'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(widget.labelText),
+                  const SizedBox(width: 4),
+                  if (widget.required)
+                    Text(
+                      '*',
+                      style: context.theme.textTheme.bodyMedium!.copyWith(
+                        color: Colors.red,
+                      ),
+                    ),
+                ],
+              ),
             ),
             const Divider(
               height: 1,
@@ -81,7 +99,7 @@ class _FilePickerState extends ConsumerState<AxFilePicker> {
                       trailing: const Icon(Icons.close),
                       onTap: () {
                         var newList = List<String>.from(files)..removeAt(index);
-                        widget.onChanged?.call(newList);
+                        widget.onChanged.call(newList);
                         setState(() {});
                       },
                       contentPadding: const EdgeInsets.only(left: 14, right: 14, top: 0, bottom: 0),
@@ -111,7 +129,7 @@ class _FilePickerState extends ConsumerState<AxFilePicker> {
 
                     var newList = List<String>.from(files)..addAll(newFiles.map((e) => (e.path?.toString() ?? '').replaceAll("\\", "/")));
                     setState(() {});
-                    widget.onChanged?.call(newList);
+                    widget.onChanged.call(newList);
                   }
                 },
                 children: const [

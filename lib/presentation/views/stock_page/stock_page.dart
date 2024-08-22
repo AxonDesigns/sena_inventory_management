@@ -11,6 +11,6 @@ class StockPage extends ConsumerStatefulWidget {
 class _StockPageState extends ConsumerState<StockPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Stock"));
+    return const Center(child: Text("Stock"));
   }
 }

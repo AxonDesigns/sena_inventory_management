@@ -13,7 +13,6 @@ class UserRepository extends Repository<User> {
 
     return records.map((record) {
       final avatar = pocketbase.getFileUrl(record, record.getStringValue("avatar"), token: token).toString();
-      print(avatar);
       return User.fromRecord(record, avatarPath: avatar);
     }).toList();
   }
@@ -24,7 +23,6 @@ class UserRepository extends Repository<User> {
 
     return records.map((record) {
       final avatar = pocketbase.getFileUrl(record, record.getStringValue("avatar"), token: token).toString();
-      print(avatar);
       return User.fromRecord(record, avatarPath: avatar);
     }).toList();
   }

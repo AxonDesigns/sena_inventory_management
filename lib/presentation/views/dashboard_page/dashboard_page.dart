@@ -11,6 +11,6 @@ class DashboardPage extends ConsumerStatefulWidget {
 class _DashboardPageState extends ConsumerState<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Dashboard"));
+    return const Center(child: Text("Dashboard"));
   }
 }

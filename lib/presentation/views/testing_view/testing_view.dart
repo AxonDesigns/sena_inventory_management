@@ -64,6 +64,7 @@ class _TestingViewState extends ConsumerState<TestingView> {
                 name: 'test2',
                 builder: (field) {
                   return AxFilePicker(
+                    labelText: 'Images',
                     files: field.value ?? [],
                     onChanged: (files) {
                       field.didChange(files);
@@ -77,6 +78,7 @@ class _TestingViewState extends ConsumerState<TestingView> {
                 initialValue: const ["C:/Users/AxonStudios/Downloads/_adb4dba5-10e8-4510-a0dc-6673a1dd7188.jpeg"],
                 builder: (field) {
                   return AxFilePicker(
+                    labelText: 'Images',
                     multiSelect: true,
                     files: field.value ?? [],
                     onChanged: (files) {
@@ -88,10 +90,7 @@ class _TestingViewState extends ConsumerState<TestingView> {
               const SizedBox(height: 14),
               Button.primary(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    var data = _formKey.currentState?.save();
-                    print(data);
-                  }
+                  if (_formKey.currentState!.validate()) {}
                 },
                 tooltip: "Save",
                 children: const [Text("Save")],

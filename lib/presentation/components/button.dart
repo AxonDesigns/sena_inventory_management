@@ -17,6 +17,7 @@ class Button extends ConsumerStatefulWidget {
     this.gap = 5.0,
     this.tooltip,
     this.canBeFocused = true,
+    this.focusNode,
   }) : type = null;
 
   const Button.primary({
@@ -28,6 +29,7 @@ class Button extends ConsumerStatefulWidget {
     this.gap = 5.0,
     this.tooltip,
     this.canBeFocused = true,
+    this.focusNode,
   })  : type = AxType.primary,
         backgroundColor = null,
         foregroundColor = null,
@@ -43,6 +45,7 @@ class Button extends ConsumerStatefulWidget {
     this.gap = 5.0,
     this.tooltip,
     this.canBeFocused = true,
+    this.focusNode,
   })  : type = AxType.secondary,
         backgroundColor = null,
         foregroundColor = null,
@@ -58,6 +61,7 @@ class Button extends ConsumerStatefulWidget {
     this.gap = 5.0,
     this.tooltip,
     this.canBeFocused = true,
+    this.focusNode,
   })  : type = AxType.outline,
         backgroundColor = null,
         foregroundColor = null,
@@ -73,6 +77,7 @@ class Button extends ConsumerStatefulWidget {
     this.gap = 5.0,
     this.tooltip,
     this.canBeFocused = true,
+    this.focusNode,
   })  : type = AxType.ghost,
         backgroundColor = null,
         foregroundColor = null,
@@ -88,6 +93,7 @@ class Button extends ConsumerStatefulWidget {
     this.gap = 5.0,
     this.tooltip,
     this.canBeFocused = true,
+    this.focusNode,
   })  : type = AxType.glass,
         backgroundColor = null,
         foregroundColor = null,
@@ -106,6 +112,7 @@ class Button extends ConsumerStatefulWidget {
   final bool canInteract;
   final double gap;
   final bool canBeFocused;
+  final FocusNode? focusNode;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AxButtonState();
@@ -114,7 +121,7 @@ class Button extends ConsumerStatefulWidget {
 class _AxButtonState extends ConsumerState<Button> {
   var hovered = false;
   var pressed = false;
-  var _focusNode = FocusNode();
+  late final _focusNode = widget.focusNode ?? FocusNode();
 
   @override
   void initState() {

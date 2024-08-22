@@ -53,16 +53,16 @@ class _FieldContainerState extends ConsumerState<FieldContainer> {
 
     var bgColor = WidgetStateProperty.resolveWith(
       (states) {
-        var color = context.colorScheme.surfaceContainerLow;
+        var color = context.colorScheme.surfaceContainerHigh;
         if (states.contains(WidgetState.hovered)) {
-          color = context.colorScheme.surfaceContainerLow.toHSLColor.withRelativeLightness(0.025).withRelativeSaturation(-0.025).toColor();
+          color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(0.025).withRelativeSaturation(-0.025).toColor();
         }
         if (states.contains(WidgetState.pressed)) {
-          color = context.colorScheme.surfaceContainerLow.toHSLColor.withRelativeLightness(-0.025).toColor();
+          color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(-0.025).toColor();
         }
 
         if (states.contains(WidgetState.focused)) {
-          color = context.colorScheme.surfaceContainerLow.toHSLColor.withRelativeLightness(0.05).withRelativeSaturation(-0.03).toColor();
+          color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(0.05).withRelativeSaturation(-0.03).toColor();
         }
 
         return color;

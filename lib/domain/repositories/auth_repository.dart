@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:http_parser/http_parser.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/src/media_type.dart';
 import 'package:dio/dio.dart';
 import 'package:sena_inventory_management/core/core.dart';
 import 'package:sena_inventory_management/domain/domain.dart';

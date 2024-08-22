@@ -3,9 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sena_inventory_management/core/core.dart';
-import 'package:sena_inventory_management/domain/domain.dart';
 import 'package:sena_inventory_management/presentation/presentation.dart';
-import 'package:sena_inventory_management/presentation/providers/providers.dart';
 import 'package:sena_inventory_management/presentation/views/transactions_page/transaction_card.dart';
 
 class TransactionsPage extends ConsumerStatefulWidget {
@@ -65,62 +63,6 @@ class _OrdersPageState extends ConsumerState<TransactionsPage> {
       error: (error, stack) {
         return const Center(child: Text("Error"));
       },
-    );
-  }
-
-  Widget _buildTransactionTile(BuildContext context, Transaction transaction) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14.0),
-      child: GestureDetector(
-        onTap: () => print(transaction.id),
-        child: Container(
-          decoration: BoxDecoration(
-            color: context.colorScheme.surfaceContainerLow,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${transaction.type} - ${formatDate(transaction.updated)}',
-                        style: context.theme.textTheme.bodyLarge,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(transaction.responsable.fullName, style: context.theme.textTheme.bodyMedium),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Text(transaction.source.name, style: context.theme.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          const Icon(FluentIcons.chevron_right_12_regular),
-                          const SizedBox(width: 10),
-                          Text(transaction.destination.name, style: context.theme.textTheme.bodyMedium),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  '${transaction.productTransactions.fold(0.0, (previousValue, element) => previousValue + element.amount)} products',
-                  style: context.theme.textTheme.bodyMedium,
-                ),
-                const SizedBox(width: 10),
-                const Padding(
-                  padding: EdgeInsets.all(14.0),
-                  child: Icon(FluentIcons.chevron_right_12_regular),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

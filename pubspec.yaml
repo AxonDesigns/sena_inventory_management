@@ -26,6 +26,8 @@ dependencies:
   data_table_2: ^2.5.15
   file_picker: ^8.1.2
   path: ^1.9.0
+  http: ^1.2.2
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

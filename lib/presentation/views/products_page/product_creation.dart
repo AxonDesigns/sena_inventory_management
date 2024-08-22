@@ -20,6 +20,26 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
   final _test = GlobalKey<FormFieldState<String>>();
   final _formKey = GlobalKey<FormState>();
 
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _unitReferenceController = TextEditingController();
+  final _createdController = TextEditingController();
+  final _updatedController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.product != null) {
+      _nameController.text = widget.product!.name;
+      _descriptionController.text = widget.product!.description;
+      _priceController.text = currencyFormatter.formatDouble(widget.product!.price);
+      _unitReferenceController.text = widget.product!.unitReference.toString();
+      _createdController.text = formatDate(widget.product!.created);
+      _updatedController.text = formatDate(widget.product!.updated);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -38,15 +58,34 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('New Product', style: context.theme.textTheme.titleSmall),
+                  Text(widget.product == null ? 'New Product' : 'Edit Product', style: context.theme.textTheme.titleSmall),
                   const SizedBox(height: 14),
-                  AxTextInputForm(labelText: 'Name', required: true),
+                  AxTextInputForm(
+                    controller: _nameController,
+                    labelText: 'Name',
+                    required: true,
+                  ),
                   const SizedBox(height: 14),
-                  AxTextInputForm(labelText: 'Image', required: true),
+                  AxFilePicker(
+                    labelText: 'Images',
+                    required: true,
+                    files: const ["C:/Users/AxonStudios/Downloads/pawel-czerwinski-IWB5zcF6uLc-unsplash.jpg"],
+                    multiSelect: true,
+                    onChanged: (value) {},
+                  ),
                   const SizedBox(height: 14),
-                  AxTextInputForm(labelText: 'Description', required: true),
+                  AxTextInputForm(
+                    controller: _descriptionController,
+                    labelText: 'Description',
+                    required: true,
+                  ),
                   const SizedBox(height: 14),
-                  AxTextInputForm(labelText: 'Price', required: true),
+                  AxTextInputForm(
+                    controller: _priceController,
+                    inputFormatters: [currencyFormatter],
+                    labelText: 'Price',
+                    required: true,
+                  ),
                   const SizedBox(height: 14),
                   DropdownField(
                     formFieldKey: _test,
@@ -58,7 +97,23 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                     },
                   ),
                   const SizedBox(height: 14),
-                  AxTextInputForm(labelText: 'Unit Reference', required: true),
+                  AxTextInputForm(
+                    controller: _unitReferenceController,
+                    labelText: 'Unit Reference',
+                    required: true,
+                  ),
+                  const SizedBox(height: 14),
+                  AxTextInputForm(
+                    controller: _createdController,
+                    labelText: 'Created',
+                    readOnly: true,
+                  ),
+                  const SizedBox(height: 14),
+                  AxTextInputForm(
+                    controller: _updatedController,
+                    labelText: 'Updated',
+                    readOnly: true,
+                  ),
                   const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

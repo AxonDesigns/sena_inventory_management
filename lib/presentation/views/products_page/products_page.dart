@@ -23,6 +23,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
     });
 
   final int _pageSize = 10;
+  // ignore: prefer_final_fields
   int _page = 0;
 
   @override
@@ -73,16 +74,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                       const SizedBox(width: 10),
                       Button.primary(
                           onPressed: () {
-                            var result = context.showOverlay<Product?>(
-                              builder: (context, content, alpha) {
-                                return Transform.translate(
-                                  offset: Offset(alpha.lerp(25, 0.0), 0.0),
-                                  child: Opacity(opacity: alpha, child: content),
-                                );
-                              },
-                              child: const ProductCreation(),
-                            );
-                            print(result);
+                            _handleNew(context);
                           },
                           children: const [Icon(FluentIcons.add_12_regular), Text('New')]),
                     ],
@@ -166,7 +158,9 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Button.glass(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _handleEdit(context, product);
+                                      },
                                       children: const [Icon(FluentIcons.edit_12_filled)],
                                     ),
                                     const SizedBox(width: 10),
@@ -268,5 +262,31 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
       },
     );
     return result ?? false;
+  }
+
+  Future<Product?> _handleNew(BuildContext context) async {
+    var result = context.showOverlay<Product?>(
+      builder: (context, content, alpha) {
+        return Transform.translate(
+          offset: Offset(alpha.lerp(25, 0.0), 0.0),
+          child: Opacity(opacity: alpha, child: content),
+        );
+      },
+      child: const ProductCreation(),
+    );
+    return result;
+  }
+
+  Future<Product?> _handleEdit(BuildContext context, Product product) async {
+    var result = context.showOverlay<Product?>(
+      builder: (context, content, alpha) {
+        return Transform.translate(
+          offset: Offset(alpha.lerp(25, 0.0), 0.0),
+          child: Opacity(opacity: alpha, child: content),
+        );
+      },
+      child: ProductCreation(product: product),
+    );
+    return result;
   }
 }

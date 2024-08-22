@@ -17,7 +17,6 @@ class _EmployeesPageState extends ConsumerState<EmployeesPage> {
   Widget build(BuildContext context) {
     return _employees.buildWidget(
       data: (data) {
-        print(data);
         return ListView.builder(
           itemCount: data.length,
           itemBuilder: (context, index) => ListTile(

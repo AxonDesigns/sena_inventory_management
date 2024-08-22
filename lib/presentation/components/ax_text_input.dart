@@ -111,8 +111,9 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.icon != null)
+                      if (widget.icon != null) ...[
                         AnimatedOpacity(
                           duration: duration,
                           curve: curve,
@@ -122,7 +123,8 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                             color: widget.errorText != null ? Colors.red : context.colorScheme.onSurface,
                           ),
                         ),
-                      const SizedBox(width: 4.0),
+                        const SizedBox(width: 4.0),
+                      ],
                       AnimatedOpacity(
                         duration: duration,
                         curve: curve,
@@ -140,8 +142,7 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                       if (widget.required)
                         Text(
                           '*',
-                          style: context.theme.textTheme.labelMedium!.copyWith(
-                            fontSize: 11.0,
+                          style: context.theme.textTheme.bodyMedium!.copyWith(
                             color: widget.errorText != null ? context.colorScheme.onSurface : Colors.red,
                           ),
                         ),
@@ -177,7 +178,8 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                         focusNode: _focusNode,
                         obscureText: widget.obscureText && !unObscured,
                         obscuringCharacter: '•',
-                        style: context.theme.textTheme.bodyMedium!.copyWith(fontSize: 12),
+                        style: context.theme.textTheme.bodyMedium!
+                            .copyWith(fontSize: 12, color: widget.readOnly ? context.colorScheme.onSurface.withOpacity(0.65) : null),
                         inputFormatters: widget.inputFormatters,
                         autofocus: widget.autofocus,
                         enabled: widget.enabled,
@@ -219,6 +221,9 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
   }
 
   void _handleFocus() {
+    if (widget.readOnly) {
+      _focusNode.unfocus();
+    }
     setState(() {});
   }
 }
@@ -234,7 +239,7 @@ class AxTextInputForm extends FormField<String> {
     this.required = false,
     this.inputFormatters,
     this.autofocus = false,
-    this.enabled = true,
+    this.inputEnabled = true,
     this.readOnly = false,
     this.showToggleObscureButton = false,
     this.onChanged,
@@ -260,7 +265,7 @@ class AxTextInputForm extends FormField<String> {
                 required: required,
                 inputFormatters: inputFormatters,
                 autofocus: autofocus,
-                enabled: enabled,
+                enabled: inputEnabled,
                 readOnly: readOnly,
                 errorText: field.errorText,
                 onChanged: onChangedHandler,
@@ -278,7 +283,7 @@ class AxTextInputForm extends FormField<String> {
   final bool obscureText;
   final bool required;
   final bool autofocus;
-  final bool enabled;
+  final bool inputEnabled;
   final bool readOnly;
   final void Function(String value)? onChanged;
   final void Function(String value)? onSubmitted;

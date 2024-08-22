@@ -1,6 +1,5 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:sena_inventory_management/domain/domain.dart';
-import 'package:sena_inventory_management/domain/models/models.dart';
 
 class TransactionRepository {
   TransactionRepository({

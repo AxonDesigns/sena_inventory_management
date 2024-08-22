@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FormBuilder extends ConsumerStatefulWidget {
-  const FormBuilder({
+class AxForm extends ConsumerStatefulWidget {
+  const AxForm({
     super.key,
     required this.child,
   });
@@ -10,14 +10,14 @@ class FormBuilder extends ConsumerStatefulWidget {
   final Widget child;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => FormBuilderState();
+  ConsumerState<ConsumerStatefulWidget> createState() => AxFormState();
 }
 
-class FormBuilderState extends ConsumerState<FormBuilder> {
-  final List<FormFieldBuilderState> _fields = [];
+class AxFormState extends ConsumerState<AxForm> {
+  final List<AxFormFieldState> _fields = [];
 
   @override
-  void didUpdateWidget(covariant FormBuilder oldWidget) {
+  void didUpdateWidget(covariant AxForm oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Wait for the next frame to check if there are unmounted fields, if so, remove them from the list.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -39,7 +39,7 @@ class FormBuilderState extends ConsumerState<FormBuilder> {
     return widget.child;
   }
 
-  void _addField(FormFieldBuilderState field) {
+  void _addField(AxFormFieldState field) {
     _fields.add(field);
   }
 
@@ -55,34 +55,41 @@ class FormBuilderState extends ConsumerState<FormBuilder> {
     return isValid;
   }
 
-  Map<String, dynamic> getData() {
+  Map<String, dynamic> save() {
     final map = <String, dynamic>{};
     for (var field in _fields) {
       map[field.widget.name] = field.value;
+      field._saved();
     }
     return map;
   }
 }
 
-class FormFieldBuilder<T> extends ConsumerStatefulWidget {
-  const FormFieldBuilder({
+class AxFormField<T> extends ConsumerStatefulWidget {
+  const AxFormField({
     super.key,
     required this.name,
     this.initialValue,
     required this.builder,
     this.validator,
+    this.enabled = true,
+    this.autovalidateMode = AutovalidateMode.disabled,
+    this.onSaved,
   });
 
   final String name;
   final T? initialValue;
-  final Widget Function(FormFieldBuilderState<T> field) builder;
+  final Widget Function(AxFormFieldState<T> field) builder;
   final String? Function(T? value)? validator;
+  final bool enabled;
+  final AutovalidateMode autovalidateMode;
+  final void Function(T? value)? onSaved;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => FormFieldBuilderState<T>();
+  ConsumerState<ConsumerStatefulWidget> createState() => AxFormFieldState<T>();
 }
 
-class FormFieldBuilderState<T> extends ConsumerState<FormFieldBuilder<T>> {
+class AxFormFieldState<T> extends ConsumerState<AxFormField<T>> {
   late var _value = widget.initialValue;
   String? _error;
 
@@ -92,7 +99,7 @@ class FormFieldBuilderState<T> extends ConsumerState<FormFieldBuilder<T>> {
   @override
   void initState() {
     super.initState();
-    var formBuilderState = context.findAncestorStateOfType<FormBuilderState>();
+    var formBuilderState = context.findAncestorStateOfType<AxFormState>();
     formBuilderState?._addField(this);
   }
 
@@ -102,22 +109,54 @@ class FormFieldBuilderState<T> extends ConsumerState<FormFieldBuilder<T>> {
   }
 
   void didChange(T? value) {
-    setState(() {
-      _value = value;
-    });
+    _value = value;
+
+    if (widget.autovalidateMode != AutovalidateMode.disabled) {
+      validate();
+    } else {
+      setState(() {});
+    }
   }
 
   bool validate() {
-    if (widget.validator != null) {
-      final error = widget.validator!(_value);
-      if (error != null) {
-        _error = error;
-      } else {
-        _error = null;
-      }
-    }
+    _error = widget.validator?.call(_value);
 
     setState(() {});
     return _error == null;
   }
+
+  void reset() {
+    _value = widget.initialValue;
+    _error = null;
+    setState(() {});
+  }
+
+  void _saved() {
+    widget.onSaved?.call(_value);
+  }
 }
+
+/*class AxFormFieldAdapter<T> extends ConsumerStatefulWidget {
+  const AxFormFieldAdapter({
+    super.key,
+    required this.vanillaField,
+  });
+
+  final FormField vanillaField;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => AxFormFieldAdapterState<T>();
+}
+
+class AxFormFieldAdapterState<T> extends ConsumerState<AxFormFieldAdapter<T>> {
+  @override
+  void initState() {
+    super.initState();
+    //widget.vanillaField.
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}*/

@@ -12,53 +12,80 @@ class TestingView extends ConsumerStatefulWidget {
 }
 
 class _TestingViewState extends ConsumerState<TestingView> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _formKey = GlobalKey<AxFormState>();
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: FormBuilder(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FormFieldBuilder<String>(
-              name: 'name',
-              builder: (field) {
-                return TextField(
-                  onChanged: (value) {
-                    field.didChange(value);
-                  },
-                );
-              },
-            ),
-            FormFieldBuilder<String>(
-              name: 'test',
-              builder: (field) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      onChanged: (value) {
-                        field.didChange(value);
-                      },
-                    ),
-                    if (field.error != null) Text(field.error!),
-                  ],
-                );
-              },
-              validator: FieldValidators.required(),
-            ),
-            Button.primary(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  var data = _formKey.currentState?.getData();
-                  print(data);
-                }
-              },
-              tooltip: "Save",
-              children: const [Text("Save")],
-            )
-          ],
+      child: SizedBox(
+        width: 350,
+        child: AxForm(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AxFormField<String>(
+                name: 'name',
+                builder: (field) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        onChanged: (value) {
+                          field.didChange(value);
+                        },
+                      ),
+                      if (field.error != null) Text(field.error!),
+                    ],
+                  );
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: FieldValidators.required(),
+              ),
+              AxFormField<String>(
+                name: 'test',
+                builder: (field) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        onChanged: (value) {
+                          field.didChange(value);
+                        },
+                      ),
+                      if (field.error != null) Text(field.error!),
+                    ],
+                  );
+                },
+                validator: FieldValidators.required(),
+              ),
+              AxFormField(
+                name: 'test2',
+                builder: (field) {
+                  return const AxFilePicker();
+                },
+                validator: FieldValidators.required(),
+              ),
+              AxFormField(
+                name: 'test3',
+                builder: (field) {
+                  return const AxFilePicker(
+                    multiSelect: true,
+                  );
+                },
+                validator: FieldValidators.required(),
+              ),
+              Button.primary(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    var data = _formKey.currentState?.save();
+                    print(data);
+                  }
+                },
+                tooltip: "Save",
+                children: const [Text("Save")],
+              )
+            ],
+          ),
         ),
       ),
     );

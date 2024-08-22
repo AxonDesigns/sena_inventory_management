@@ -41,6 +41,7 @@ class _TestingViewState extends ConsumerState<TestingView> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: FieldValidators.required(),
               ),
+              const SizedBox(height: 14),
               AxFormField<String>(
                 name: 'test',
                 builder: (field) {
@@ -58,22 +59,33 @@ class _TestingViewState extends ConsumerState<TestingView> {
                 },
                 validator: FieldValidators.required(),
               ),
-              AxFormField(
+              const SizedBox(height: 14),
+              AxFormField<List<String>>(
                 name: 'test2',
                 builder: (field) {
-                  return const AxFilePicker();
-                },
-                validator: FieldValidators.required(),
-              ),
-              AxFormField(
-                name: 'test3',
-                builder: (field) {
-                  return const AxFilePicker(
-                    multiSelect: true,
+                  return AxFilePicker(
+                    files: field.value ?? [],
+                    onChanged: (files) {
+                      field.didChange(files);
+                    },
                   );
                 },
-                validator: FieldValidators.required(),
               ),
+              const SizedBox(height: 14),
+              AxFormField<List<String>>(
+                name: 'list_of_images',
+                initialValue: const ["C:/Users/AxonStudios/Downloads/_adb4dba5-10e8-4510-a0dc-6673a1dd7188.jpeg"],
+                builder: (field) {
+                  return AxFilePicker(
+                    multiSelect: true,
+                    files: field.value ?? [],
+                    onChanged: (files) {
+                      field.didChange(files);
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 14),
               Button.primary(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

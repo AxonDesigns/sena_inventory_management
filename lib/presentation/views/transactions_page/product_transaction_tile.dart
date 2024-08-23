@@ -29,7 +29,7 @@ class _ProductTransactionTileState extends ConsumerState<ProductTransactionTile>
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: product.urls.isNotEmpty ? NetworkImage(product.urls.first) : null,
+                backgroundImage: product.urls.isNotEmpty ? NetworkImage(product.urls.first.toString()) : null,
                 child: product.urls.isEmpty ? const Icon(FluentIcons.image_16_filled) : null,
               ),
               const SizedBox(width: 10),

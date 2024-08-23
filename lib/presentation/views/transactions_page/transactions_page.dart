@@ -14,11 +14,11 @@ class TransactionsPage extends ConsumerStatefulWidget {
 }
 
 class _OrdersPageState extends ConsumerState<TransactionsPage> {
-  late final _transactions = ref.read(transactionRepositoryProvider).getAll();
-
   @override
   Widget build(BuildContext context) {
-    return _transactions.buildWidget(
+    final transactions = ref.watch(transactionRepositoryProvider).getAll();
+
+    return transactions.buildWidget(
       data: (data) {
         return Padding(
           padding: const EdgeInsets.all(14.0),
@@ -36,6 +36,16 @@ class _OrdersPageState extends ConsumerState<TransactionsPage> {
                     children: [
                       Text('Transactions', style: context.theme.textTheme.titleSmall),
                       const Spacer(),
+                      Button.outline(
+                        onPressed: () {
+                          setState(() {
+                            ref.invalidate(transactionRepositoryProvider);
+                          });
+                        },
+                        tooltip: 'Refresh',
+                        children: const [Icon(FluentIcons.arrow_sync_12_regular)],
+                      ),
+                      const SizedBox(width: 10),
                       Button.outline(onPressed: () {}, children: const [Icon(FluentIcons.arrow_up_12_regular), Text('Export')]),
                       const SizedBox(width: 10),
                       Button.outline(onPressed: () {}, children: const [Icon(FluentIcons.arrow_down_12_regular), Text('Import')]),

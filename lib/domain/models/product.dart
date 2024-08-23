@@ -10,7 +10,7 @@ class Product extends Model {
   final double unitReference;
   final Unit unit;
   final List<Category> categories;
-  List<String> urls;
+  List<Uri> urls;
 
   Product({
     required super.id,

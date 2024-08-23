@@ -6,3 +6,4 @@ export 'role_repository_provider.dart';
 export 'transaction_repository_provider.dart';
 export 'product_repository_provider.dart';
 export 'user_repository_provider.dart';
+export 'unit_provider.dart';

@@ -10,6 +10,7 @@ class FieldContainer extends ConsumerStatefulWidget {
     this.onTap,
     this.focusNode,
     this.handlePressedState = false,
+    this.handleHoveredState = true,
   }) : assert(child != null || builder != null);
 
   final Widget? child;
@@ -17,6 +18,7 @@ class FieldContainer extends ConsumerStatefulWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final bool handlePressedState;
+  final bool handleHoveredState;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FieldContainerState();
@@ -46,7 +48,7 @@ class _FieldContainerState extends ConsumerState<FieldContainer> {
   @override
   Widget build(BuildContext context) {
     var state = {
-      if (hovered) WidgetState.hovered,
+      if (hovered && widget.handleHoveredState) WidgetState.hovered,
       if (pressed && widget.handlePressedState) WidgetState.pressed,
       if (focused) WidgetState.focused,
     };

@@ -14,6 +14,7 @@ class AxTextInput extends ConsumerStatefulWidget {
     this.obscureText = false,
     this.required = false,
     this.inputFormatters,
+    this.keyboardType,
     this.autofocus = false,
     this.enabled = true,
     this.readOnly = false,
@@ -35,6 +36,7 @@ class AxTextInput extends ConsumerStatefulWidget {
   final bool showToggleObscureButton;
   final IconData? icon;
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
   final void Function(String value)? onChanged;
   final void Function(String value)? onSubmitted;
 
@@ -59,7 +61,7 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
   @override
   void dispose() {
     _focusNode.removeListener(_handleFocus);
-    _controller.dispose();
+    if (widget.controller == null) _controller.dispose();
     super.dispose();
   }
 
@@ -181,6 +183,7 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                         style: context.theme.textTheme.bodyMedium!
                             .copyWith(fontSize: 12, color: widget.readOnly ? context.colorScheme.onSurface.withOpacity(0.65) : null),
                         inputFormatters: widget.inputFormatters,
+                        keyboardType: widget.keyboardType,
                         autofocus: widget.autofocus,
                         enabled: widget.enabled,
                         readOnly: widget.readOnly,

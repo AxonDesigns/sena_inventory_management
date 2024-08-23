@@ -16,7 +16,12 @@ class ProductRepository {
       final imageNames = record.getListValue('images', <String>[]);
       final urls = imageNames.map((imageName) => pocketBase.getFileUrl(record, imageName, token: token, thumb: '30x30')).toList();
       final product = Product.fromRecord(record);
-      product.urls = urls.map((url) => url.toString()).toList();
+      print(urls
+          .map(
+            (e) => e.authority,
+          )
+          .toList());
+      product.urls = urls;
       return product;
     }).toList());
     return products;
@@ -29,7 +34,7 @@ class ProductRepository {
     final imageNames = record.getListValue('images', <String>[]);
     final urls = imageNames.map((imageName) => pocketBase.getFileUrl(record, imageName, token: token, thumb: '30x30')).toList();
     final product = Product.fromRecord(record);
-    product.urls = urls.map((url) => url.toString()).toList();
+    product.urls = urls;
     return product;
   }
 }

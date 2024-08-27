@@ -87,6 +87,8 @@ class _TestingViewState extends ConsumerState<TestingView> {
                 },
               ),
               const SizedBox(height: 14),
+              AxPicker(),
+              const SizedBox(height: 14),
               Button.primary(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {}

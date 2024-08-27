@@ -9,16 +9,31 @@ class FieldContainer extends ConsumerStatefulWidget {
     this.builder,
     this.onTap,
     this.focusNode,
-    this.handlePressedState = false,
-    this.handleHoveredState = true,
+    this.enablePressedState = false,
+    this.enableHoveredState = true,
+    this.backgroundColor,
   }) : assert(child != null || builder != null);
 
+  /// The widget to be displayed.
   final Widget? child;
+
+  /// A builder that can be used to build the widget based on the current state.
   final Widget Function(Set<WidgetState> states)? builder;
+
+  /// The callback to be called when the widget is tapped.
   final VoidCallback? onTap;
+
+  /// The focus node to be used for the widget.
   final FocusNode? focusNode;
-  final bool handlePressedState;
-  final bool handleHoveredState;
+
+  /// The background color of the widget.
+  final WidgetStateProperty<Color>? backgroundColor;
+
+  /// If true, the widget can be pressed.
+  final bool enablePressedState;
+
+  /// If true, the widget can be hovered.
+  final bool enableHoveredState;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FieldContainerState();
@@ -48,28 +63,29 @@ class _FieldContainerState extends ConsumerState<FieldContainer> {
   @override
   Widget build(BuildContext context) {
     var state = {
-      if (hovered && widget.handleHoveredState) WidgetState.hovered,
-      if (pressed && widget.handlePressedState) WidgetState.pressed,
+      if (hovered && widget.enableHoveredState) WidgetState.hovered,
+      if (pressed && widget.enablePressedState) WidgetState.pressed,
       if (focused) WidgetState.focused,
     };
 
-    var bgColor = WidgetStateProperty.resolveWith(
-      (states) {
-        var color = context.colorScheme.surfaceContainerHigh;
-        if (states.contains(WidgetState.hovered)) {
-          color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(0.025).withRelativeSaturation(-0.025).toColor();
-        }
-        if (states.contains(WidgetState.pressed)) {
-          color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(-0.025).toColor();
-        }
+    var bgColor = widget.backgroundColor ??
+        WidgetStateProperty.resolveWith(
+          (states) {
+            var color = context.colorScheme.surfaceContainerHigh;
+            if (states.contains(WidgetState.hovered)) {
+              color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(0.025).withRelativeSaturation(-0.025).toColor();
+            }
+            if (states.contains(WidgetState.pressed)) {
+              color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(-0.025).toColor();
+            }
 
-        if (states.contains(WidgetState.focused)) {
-          color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(0.05).withRelativeSaturation(-0.03).toColor();
-        }
+            if (states.contains(WidgetState.focused)) {
+              color = context.colorScheme.surfaceContainerHigh.toHSLColor.withRelativeLightness(0.05).withRelativeSaturation(-0.03).toColor();
+            }
 
-        return color;
-      },
-    );
+            return color;
+          },
+        );
 
     return GestureDetector(
       onTap: widget.onTap,

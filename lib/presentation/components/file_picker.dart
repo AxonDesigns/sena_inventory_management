@@ -41,7 +41,7 @@ class _FilePickerState extends ConsumerState<AxFilePicker> {
 
     return FieldContainer(
       focusNode: _focusNode,
-      handleHoveredState: false,
+      enableHoveredState: false,
       builder: (states) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

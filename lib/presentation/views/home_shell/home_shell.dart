@@ -76,10 +76,10 @@ class _HomePageState extends ConsumerState<HomeShell> {
                   title: "Employees",
                   icon: FluentIcons.person_16_filled,
                 ),
-                /*NavRailItem(
+                NavRailItem(
                   title: "Testing",
                   icon: FluentIcons.bug_16_filled,
-                ),*/
+                ),
               ],
               header: (minSize, maxSize, gap, isOpen) {
                 return NavRailWidget(

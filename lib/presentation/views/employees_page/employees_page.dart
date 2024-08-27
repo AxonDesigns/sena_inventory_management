@@ -58,31 +58,35 @@ class _EmployeesPageState extends ConsumerState<EmployeesPage> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     final employee = data[index];
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: context.colorScheme.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Row(
-                          children: [
-                            if (employee.avatarPath != null)
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(employee.avatarPath!),
-                                radius: 20,
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 14.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: context.colorScheme.surfaceContainerLow,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: Row(
+                            children: [
+                              if (employee.avatarPath != null)
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(employee.avatarPath!),
+                                  radius: 20,
+                                ),
+                              const SizedBox(width: 14),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(employee.fullName, style: context.theme.textTheme.bodyLarge),
+                                  const SizedBox(height: 4),
+                                  Text(employee.email,
+                                      style:
+                                          context.theme.textTheme.bodyMedium!.copyWith(color: context.theme.colorScheme.onSurface.withOpacity(0.5))),
+                                ],
                               ),
-                            const SizedBox(width: 14),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(employee.fullName, style: context.theme.textTheme.bodyLarge),
-                                const SizedBox(height: 4),
-                                Text(employee.email,
-                                    style: context.theme.textTheme.bodyMedium!.copyWith(color: context.theme.colorScheme.onSurface.withOpacity(0.5))),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );

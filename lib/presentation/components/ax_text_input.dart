@@ -8,7 +8,7 @@ class AxTextInput extends ConsumerStatefulWidget {
   const AxTextInput({
     super.key,
     this.controller,
-    required this.labelText,
+    this.labelText,
     this.icon,
     this.focusNode,
     this.obscureText = false,
@@ -21,13 +21,16 @@ class AxTextInput extends ConsumerStatefulWidget {
     this.onChanged,
     this.onSubmitted,
     this.errorText,
+    this.hintText,
+    this.prefix,
     this.showToggleObscureButton = false,
   });
 
   final TextEditingController? controller;
-  final String labelText;
+  final String? labelText;
   final FocusNode? focusNode;
   final String? errorText;
+  final String? hintText;
   final bool obscureText;
   final bool required;
   final bool autofocus;
@@ -35,6 +38,7 @@ class AxTextInput extends ConsumerStatefulWidget {
   final bool readOnly;
   final bool showToggleObscureButton;
   final IconData? icon;
+  final Widget? prefix;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final void Function(String value)? onChanged;
@@ -104,76 +108,88 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
             borderRadius: BorderRadius.circular(4.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: EdgeInsets.only(top: widget.labelText != null ? 10.0 : 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (widget.icon != null) ...[
-                        AnimatedOpacity(
-                          duration: duration,
-                          curve: curve,
-                          opacity: _focusNode.hasFocus || widget.errorText != null ? 1.0 : 0.5,
-                          child: Icon(
-                            widget.icon!,
-                            color: widget.errorText != null ? Colors.red : context.colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(width: 4.0),
-                      ],
-                      AnimatedOpacity(
-                        duration: duration,
-                        curve: curve,
-                        opacity: _focusNode.hasFocus || widget.errorText != null ? 1.0 : 0.5,
-                        child: Text(
-                          widget.labelText,
-                          style: context.theme.textTheme.labelMedium!.copyWith(
-                            fontSize: 11.0,
-                            fontVariations: [const FontVariation('wght', 400)],
-                            color: widget.errorText != null ? Colors.red : context.colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 4.0),
-                      if (widget.required)
-                        Text(
-                          '*',
-                          style: context.theme.textTheme.bodyMedium!.copyWith(
-                            color: widget.errorText != null ? context.colorScheme.onSurface : Colors.red,
-                          ),
-                        ),
-                      const Spacer(),
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 250),
-                        curve: curve,
-                        opacity: widget.errorText != null ? 1.0 : 0.0,
-                        child: Text(
-                          _errorText,
-                          style: context.theme.textTheme.labelMedium!.copyWith(
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.red,
-                            shadows: [
-                              Shadow(
-                                color: Colors.red.withOpacity(0.5),
-                                offset: const Offset(0.0, 0.0),
-                                blurRadius: 2.0,
-                              )
+                  child: widget.labelText != null
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (widget.icon != null) ...[
+                              AnimatedOpacity(
+                                duration: duration,
+                                curve: curve,
+                                opacity: _focusNode.hasFocus || widget.errorText != null ? 1.0 : 0.5,
+                                child: Icon(
+                                  widget.icon!,
+                                  color: widget.errorText != null ? Colors.red : context.colorScheme.onSurface,
+                                ),
+                              ),
+                              const SizedBox(width: 4.0),
                             ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                            AnimatedOpacity(
+                              duration: duration,
+                              curve: curve,
+                              opacity: _focusNode.hasFocus || widget.errorText != null ? 1.0 : 0.5,
+                              child: Text(
+                                widget.labelText!,
+                                style: context.theme.textTheme.labelMedium!.copyWith(
+                                  fontSize: 11.0,
+                                  fontVariations: [const FontVariation('wght', 400)],
+                                  color: widget.errorText != null ? Colors.red : context.colorScheme.onSurface,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 4.0),
+                            if (widget.required)
+                              Text(
+                                '*',
+                                style: context.theme.textTheme.bodyMedium!.copyWith(
+                                  color: widget.errorText != null ? context.colorScheme.onSurface : Colors.red,
+                                ),
+                              ),
+                            const Spacer(),
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 250),
+                              curve: curve,
+                              opacity: widget.errorText != null ? 1.0 : 0.0,
+                              child: Text(
+                                _errorText,
+                                style: context.theme.textTheme.labelMedium!.copyWith(
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.red.withOpacity(0.5),
+                                      offset: const Offset(0.0, 0.0),
+                                      blurRadius: 2.0,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
                 ),
                 Row(
                   children: [
+                    if (widget.prefix != null) ...[
+                      const SizedBox(width: 12),
+                      IconTheme(
+                        data: context.theme.iconTheme.copyWith(
+                          color: context.colorScheme.onSurface.withOpacity(0.5),
+                          size: 14,
+                        ),
+                        child: widget.prefix!,
+                      ),
+                    ],
                     Expanded(
                       child: TextField(
                         controller: _controller,
@@ -189,12 +205,17 @@ class _AxTextInputState extends ConsumerState<AxTextInput> {
                         readOnly: widget.readOnly,
                         onChanged: widget.onChanged,
                         onSubmitted: widget.onSubmitted,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           isCollapsed: true,
                           isDense: true,
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
                           filled: false,
+                          hintText: widget.hintText,
+                          hintStyle: context.theme.textTheme.bodyMedium!.copyWith(
+                            fontSize: 12,
+                            color: context.colorScheme.onSurface.withOpacity(0.5),
+                          ),
                         ),
                       ),
                     ),

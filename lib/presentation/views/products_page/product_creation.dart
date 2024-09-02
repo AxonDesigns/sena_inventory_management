@@ -42,6 +42,9 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
     final units = await unitProvider.getAll();
     _units.addAll(units);
 
+    _priceController.text = currencyFormatter.formatDouble(0.0);
+    _unitReferenceController.text = 1.0.toString();
+
     if (widget.product != null) {
       _nameController.text = widget.product!.name;
       _descriptionController.text = widget.product!.description;
@@ -93,6 +96,7 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                                 errorText: field.error,
                                 labelText: 'Name',
                                 required: true,
+                                autofocus: true,
                                 onChanged: (value) {
                                   field.didChange(value);
                                 },
@@ -124,7 +128,6 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                                 controller: _descriptionController,
                                 errorText: field.error,
                                 labelText: 'Description',
-                                required: true,
                                 onChanged: (value) {
                                   field.didChange(value);
                                 },
@@ -135,7 +138,11 @@ class _ProductCreationState extends ConsumerState<ProductCreation> {
                           AxFormField(
                             name: 'price',
                             initialValue: getUnformattedCurrency(_priceController.text),
-                            validator: FieldValidators.required(),
+                            validator: FieldValidators.compose([
+                              FieldValidators.required(),
+                              notZero(),
+                              notNegative(),
+                            ]),
                             builder: (field) {
                               return AxTextInput(
                                 controller: _priceController,
@@ -242,6 +249,7 @@ class DropdownField<T> extends StatelessWidget {
     required this.items,
     this.required = false,
     this.onChanged,
+    this.focusNode,
   });
 
   final String name;
@@ -250,14 +258,18 @@ class DropdownField<T> extends StatelessWidget {
   final Map<T, String> items;
   final bool required;
   final void Function(T? value)? onChanged;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveFocusNode = focusNode ?? FocusNode();
+
     return AxFormField<T>(
       name: name,
       initialValue: initialValue ?? items.entries.first.key,
       builder: (field) {
         return FieldContainer(
+          focusNode: effectiveFocusNode,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,6 +297,7 @@ class DropdownField<T> extends StatelessWidget {
                 isExpanded: true,
                 style: context.theme.textTheme.bodyMedium,
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                focusNode: effectiveFocusNode,
                 items: items.entries
                     .map((entry) => DropdownMenuItem(
                           value: entry.key,

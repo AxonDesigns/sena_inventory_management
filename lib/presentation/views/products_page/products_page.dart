@@ -82,6 +82,32 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                 ),
               ),
               const SizedBox(height: 14),
+              Container(
+                decoration: BoxDecoration(
+                  color: context.colorScheme.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AxTextInput(
+                          prefix: const Icon(FluentIcons.search_24_regular),
+                          hintText: 'Search',
+                          onChanged: (value) {},
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Button.secondary(
+                        onPressed: () {},
+                        children: const [Icon(FluentIcons.filter_24_regular)],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
               Expanded(
                 child: Container(
                   clipBehavior: Clip.antiAlias,

@@ -17,3 +17,19 @@ final currencyFormatter = CurrencyTextInputFormatter.currency(locale: 'es_CO', d
 double getUnformattedCurrency(String value) {
   return double.tryParse(value.replaceAll('.', '').replaceAll(',', '.').replaceAll('COP', '').trim()) ?? 0.0;
 }
+
+String? Function(T? value) notZero<T>({String error = "Value must be different from zero"}) {
+  return (value) {
+    if (value == null) return error;
+    if (value is num && value == 0) return error;
+    return null;
+  };
+}
+
+String? Function(T? value) notNegative<T>({String error = "Value must be greater or equal to zero"}) {
+  return (value) {
+    if (value == null) return error;
+    if (value is num && value.isNegative) return error;
+    return null;
+  };
+}

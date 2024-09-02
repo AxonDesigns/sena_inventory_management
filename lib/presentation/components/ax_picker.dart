@@ -13,12 +13,44 @@ class AxPicker extends ConsumerStatefulWidget {
 class _AxPickerState extends ConsumerState<AxPicker> {
   @override
   Widget build(BuildContext context) {
-    return const FieldContainer(
+    return FieldContainer(
       enablePressedState: true,
-      child: Padding(
+      onTap: () {
+        _handleTap();
+      },
+      child: const Padding(
         padding: EdgeInsets.all(14.0),
         child: Text("AX Picker"),
       ),
+    );
+  }
+
+  void _handleTap() async {
+    final result = await context.showOverlay<String>(
+      builder: (context, content, alpha) {
+        return Opacity(opacity: alpha, child: content);
+      },
+      child: const _PickerOverlay(),
+    );
+
+    if (result != null) {
+      print(result);
+    }
+  }
+}
+
+class _PickerOverlay extends ConsumerStatefulWidget {
+  const _PickerOverlay({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _PickerOverlayState();
+}
+
+class _PickerOverlayState extends ConsumerState<_PickerOverlay> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Overlay"),
     );
   }
 }
